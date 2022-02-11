@@ -11,12 +11,12 @@ export function Profile({ showProfileData = true }: ProdileProps): JSX.Element {
         <Box mr="4" textAlign="right">
           <Text>João Dias</Text>
           <Text color="gray.300" fontSize="small">
-            joaoeduardodias123.gmail.com
+            joaoeduardodias123@gmail.com
           </Text>
         </Box>
       )}
+
       <Avatar
-        ml="4"
         size="md"
         name="João Dias"
         src="https://github.com/joaoeduardodias.png"

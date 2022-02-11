@@ -26,7 +26,7 @@ export function Header(): JSX.Element {
     >
       {!isWideVersion && (
         <IconButton
-          aria-label="Open Navigation"
+          aria-label="Open navigation"
           icon={<Icon as={RiMenuLine} />}
           fontSize="24"
           variant="unstyled"
@@ -34,7 +34,9 @@ export function Header(): JSX.Element {
           mr="2"
         />
       )}
+
       <Logo />
+
       {isWideVersion && <SearchBox />}
 
       <Flex align="center" ml="auto">
