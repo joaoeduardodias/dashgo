@@ -16,6 +16,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { RiAddLine, RiPencilLine } from 'react-icons/ri';
+import Link from 'next/link';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/SideBar';
 import { Pagination } from '../../components/Pagination';
@@ -36,16 +37,18 @@ const UserList: NextPage = function () {
             <Heading size="lg" fontWeight="normal">
               Usuários
             </Heading>
-            <Button
-              as="a"
-              size="sm"
-              fontSize="sm"
-              colorScheme="pink"
-              leftIcon={<Icon as={RiAddLine} fontSize="20" />}
-              cursor="pointer"
-            >
-              Criar Novo
-            </Button>
+            <Link href="/users/create" passHref>
+              <Button
+                as="a"
+                size="sm"
+                fontSize="sm"
+                colorScheme="pink"
+                leftIcon={<Icon as={RiAddLine} fontSize="20" />}
+                cursor="pointer"
+              >
+                Criar Novo
+              </Button>
+            </Link>
           </Flex>
 
           <Table colorScheme="whiteAlpha">
