@@ -1,8 +1,29 @@
 import type { NextPage } from 'next';
 import { Flex, Button, Stack } from '@chakra-ui/react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from '../components/Form/Input';
 
-const Home: NextPage = function () {
+const signInFormSchema = yup.object().shape({
+  email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
+  password: yup.string().required('Senha obrigatória'),
+});
+
+const SignIn: NextPage = function () {
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(signInFormSchema),
+  });
+  const { errors } = formState;
+
+  const handleSignIn: SubmitHandler<FieldValues> = async (
+    values
+  ): Promise<void> => {
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log(values);
+  };
+
   return (
     <Flex w="100vw" h="100vh" align="center" justify="center">
       <Flex
@@ -13,13 +34,30 @@ const Home: NextPage = function () {
         p="8"
         borderRadius={8}
         flexDir="column"
+        onSubmit={handleSubmit(handleSignIn)}
       >
         <Stack spacing="4">
-          <Input name="email" label="E-mail" type="email" />
-          <Input name="password" label="Senha" type="password" />
+          <Input
+            label="E-mail"
+            error={errors.email}
+            type="email"
+            {...register('email')}
+          />
+          <Input
+            label="Senha"
+            error={errors.password}
+            type="password"
+            {...register('password')}
+          />
         </Stack>
 
-        <Button type="submit" mt={6} colorScheme="pink" size="lg">
+        <Button
+          type="submit"
+          mt={6}
+          colorScheme="pink"
+          size="lg"
+          isLoading={formState.isSubmitting}
+        >
           Entrar
         </Button>
       </Flex>
@@ -27,4 +65,4 @@ const Home: NextPage = function () {
   );
 };
 
-export default Home;
+export default SignIn;
