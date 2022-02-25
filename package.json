@@ -8,13 +8,14 @@
   },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
-    "@chakra-ui/react": "^1.8.3",
+    "@chakra-ui/react": "1.7.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@hookform/resolvers": "^2.8.8",
     "@types/yup": "^0.29.13",
+    "@withshepherd/faker": "^5.5.5",
     "apexcharts": "3.26.1",
-    "framer-motion": "^5",
+    "framer-motion": "^6",
     "next": "12.0.7",
     "react": "17.0.2",
     "react-apexcharts": "^1.3.9",
@@ -40,6 +41,7 @@
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-testing-library": "^5.0.1",
+    "miragejs": "^0.1.43",
     "prettier": "^2.5.1",
     "typescript": "4.5.4"
   }

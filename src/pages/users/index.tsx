@@ -15,8 +15,9 @@ import {
   Tr,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { RiAddLine, RiPencilLine } from 'react-icons/ri';
+import { RiAddLine } from 'react-icons/ri';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/SideBar';
 import { Pagination } from '../../components/Pagination';
@@ -26,6 +27,13 @@ const UserList: NextPage = function () {
     base: false,
     lg: true,
   });
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/users')
+      .then(response => response.json())
+      // eslint-disable-next-line no-console
+      .then(data => console.log(data));
+  }, []);
 
   return (
     <Box>
