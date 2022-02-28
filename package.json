@@ -15,6 +15,7 @@
     "@types/yup": "^0.29.13",
     "@withshepherd/faker": "^5.5.5",
     "apexcharts": "3.26.1",
+    "axios": "^0.26.0",
     "framer-motion": "^6",
     "next": "12.0.7",
     "react": "17.0.2",

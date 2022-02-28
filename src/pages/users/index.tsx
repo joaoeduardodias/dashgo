@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable no-nested-ternary */
 import type { NextPage } from 'next';
 import {
@@ -23,14 +24,15 @@ import { useQuery } from 'react-query';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/SideBar';
 import { Pagination } from '../../components/Pagination';
+import { api } from '../../services/api';
 
 const UserList: NextPage = function () {
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, isFetching, error } = useQuery(
     'users',
     async () => {
-      const response = await fetch('http://localhost:3000/api/users');
-      const dataJson = await response.json();
-      const users = dataJson.users.map(user => {
+      const response = await api.get('/users');
+      const { data } = response;
+      const users = data.users.map(user => {
         return {
           id: user.id,
           name: user.name,
@@ -63,6 +65,9 @@ const UserList: NextPage = function () {
           <Flex mb="8" justify="space-between" align="center">
             <Heading size="lg" fontWeight="normal">
               Usuários
+              {!isLoading && isFetching && (
+                <Spinner size="sm" color="gray.500" ml="4" />
+              )}
             </Heading>
             <Link href="/users/create" passHref>
               <Button
