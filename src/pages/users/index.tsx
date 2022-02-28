@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-nested-ternary */
 import type { NextPage } from 'next';
 import {
@@ -20,36 +20,13 @@ import {
 } from '@chakra-ui/react';
 import { RiAddLine } from 'react-icons/ri';
 import Link from 'next/link';
-import { useQuery } from 'react-query';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/SideBar';
 import { Pagination } from '../../components/Pagination';
-import { api } from '../../services/api';
+import { useUsers } from '../../services/hooks/useUsers';
 
 const UserList: NextPage = function () {
-  const { data, isLoading, isFetching, error } = useQuery(
-    'users',
-    async () => {
-      const response = await api.get('/users');
-      const { data } = response;
-      const users = data.users.map(user => {
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric',
-          }),
-        };
-      });
-      return users;
-    },
-    {
-      staleTime: 1000 * 5, // 5 seconds
-    }
-  );
+  const { data, isLoading, isFetching, error } = useUsers();
 
   const isWideVersion = useBreakpointValue({
     base: false,
