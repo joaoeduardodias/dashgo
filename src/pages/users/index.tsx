@@ -14,6 +14,7 @@ import {
   Td,
   Text,
   Th,
+  Link as ChakraLink,
   Thead,
   Tr,
   useBreakpointValue,
@@ -25,6 +26,8 @@ import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/SideBar';
 import { Pagination } from '../../components/Pagination';
 import { useUsers } from '../../services/hooks/useUsers';
+import { queryClient } from '../../services/queryClient';
+import { api } from '../../services/api';
 
 const UserList: NextPage = function () {
   const [page, setPage] = useState(1);
@@ -34,6 +37,19 @@ const UserList: NextPage = function () {
     base: false,
     lg: true,
   });
+
+  async function handlePrefetchUser(userId: number): any {
+    await queryClient.prefetchQuery(
+      ['user', userId],
+      async () => {
+        const response = await api.get(`users/${userId}`);
+        return response.data;
+      },
+      {
+        staleTime: 1000 * 60 * 10, // 10 minutos
+      }
+    );
+  }
 
   return (
     <Box>
@@ -88,7 +104,11 @@ const UserList: NextPage = function () {
                       </Td>
                       <Td>
                         <Box>
-                          <Text fontWeight="bold">{user.name}</Text>
+                          <ChakraLink
+                            onMouseEnter={() => handlePrefetchUser(user.id)}
+                          >
+                            <Text fontWeight="bold">{user.name}</Text>
+                          </ChakraLink>
                           <Text fontSize="small" color="gray.300">
                             {user.email}
                           </Text>
