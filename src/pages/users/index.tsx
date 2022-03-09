@@ -38,7 +38,7 @@ const UserList: NextPage = function () {
     lg: true,
   });
 
-  async function handlePrefetchUser(userId: number): any {
+  async function handlePrefetchUser(userId: string): any {
     await queryClient.prefetchQuery(
       ['user', userId],
       async () => {
