@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-nested-ternary */
-import type { NextPage } from 'next';
 import {
   Box,
   Button,
@@ -8,26 +7,27 @@ import {
   Flex,
   Heading,
   Icon,
+  Link as ChakraLink,
   Spinner,
   Table,
   Tbody,
   Td,
   Text,
   Th,
-  Link as ChakraLink,
   Thead,
   Tr,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { RiAddLine } from 'react-icons/ri';
+import type { NextPage } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
+import { RiAddLine } from 'react-icons/ri';
 import { Header } from '../../components/Header';
-import { Sidebar } from '../../components/SideBar';
 import { Pagination } from '../../components/Pagination';
+import { Sidebar } from '../../components/SideBar';
+import { api } from '../../services/api';
 import { useUsers } from '../../services/hooks/useUsers';
 import { queryClient } from '../../services/queryClient';
-import { api } from '../../services/api';
 
 const UserList: NextPage = function () {
   const [page, setPage] = useState(1);
@@ -38,7 +38,7 @@ const UserList: NextPage = function () {
     lg: true,
   });
 
-  async function handlePrefetchUser(userId: string): any {
+  async function handlePrefetchUser(userId: string): Promise<any> {
     await queryClient.prefetchQuery(
       ['user', userId],
       async () => {

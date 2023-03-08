@@ -1,4 +1,3 @@
-import type { NextPage } from 'next';
 import {
   Box,
   Button,
@@ -9,24 +8,25 @@ import {
   SimpleGrid,
   Stack,
 } from '@chakra-ui/react';
-import Link from 'next/link';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMutation } from 'react-query';
+import type { NextPage } from 'next';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import * as yup from 'yup';
+import { Input } from '../../components/Form/Input';
 import { Header } from '../../components/Header';
 import { Sidebar } from '../../components/SideBar';
-import { Input } from '../../components/Form/Input';
 import { api } from '../../services/api';
 import { queryClient } from '../../services/queryClient';
 
-type CreateUserFormData = {
-  name: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
-};
+// type CreateUserFormData = {
+//   name: string;
+//   email: string;
+//   password: string;
+//   password_confirmation: string;
+// };
 
 const createUserFormSchema = yup.object().shape({
   name: yup.string().required('Nome obrigatório'),
@@ -44,7 +44,8 @@ const CreateUser: NextPage = function () {
   const router = useRouter();
 
   const createUser = useMutation(
-    async (user: CreateUserFormData) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async (user: any) => {
       const response = await api.post('users', {
         user: {
           ...user,
@@ -64,7 +65,7 @@ const CreateUser: NextPage = function () {
     resolver: yupResolver(createUserFormSchema),
   });
   const { errors } = formState;
-  const handleCreateUser: SubmitHandler<CreateUserFormData> = async values => {
+  const handleCreateUser: SubmitHandler<FieldValues> = async values => {
     await createUser.mutateAsync(values);
     router.push('/users');
   };
@@ -91,12 +92,13 @@ const CreateUser: NextPage = function () {
             <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
               <Input
                 label="Nome completo"
-                error={errors.name}
+                error={errors?.name && <p>{errors.name.message}</p>}
                 {...register('name')}
               />
+              <p />
               <Input
                 label="E-mail"
-                error={errors.email}
+                error={errors?.email && <p>{errors.email.message}</p>}
                 {...register('email')}
               />
             </SimpleGrid>
@@ -104,13 +106,17 @@ const CreateUser: NextPage = function () {
               <Input
                 type="password"
                 label="Senha"
-                error={errors.password}
+                error={errors?.password && <p>{errors.password.message}</p>}
                 {...register('password')}
               />
               <Input
                 type="password"
                 label="Confirme sua senha"
-                error={errors.password_confirmation}
+                error={
+                  errors?.password_confirmation && (
+                    <p>{errors.password_confirmation.message}</p>
+                  )
+                }
                 {...register('password_confirmation')}
               />
             </SimpleGrid>
